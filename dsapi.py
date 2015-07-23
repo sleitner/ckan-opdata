@@ -16,7 +16,8 @@ def make_http_request(api, data_string):
     try:
         response = urllib2.urlopen(request, data_string)
     except urllib2.HTTPError, e:
-        print 'HTTPError = ' + str(e.code)
+        print 'HTTPError = ' + str(e.code) 
+        print 'does the resource exist?'
         print json.loads(e.read())
     except urllib2.URLError, e:
         print 'URLError = ' + str(e.reason)
@@ -50,7 +51,6 @@ def create(data, columns):
     print '----------------'
 def insert_record(data, record):
     data.update({'force':'true',
-                 'filters': record_filter, 
                  'records': record,
     })
     data_string = urllib.quote(json.dumps(data))
@@ -76,55 +76,61 @@ def search(data, columns):
     print '----------------'
 
     
-resource_id='09487ca6-3859-4787-95ad-e8b6cd52fab6'
-pkey_name='name'
+#resource_id='09487ca6-3859-4787-95ad-e8b6cd52fab6'
+resource_id='26b94483-7caf-430c-bab4-8ebd02beedd3'
 # Put the options of the dataset we're going to create into a dict.
 data = {'resource_id':resource_id,}
 
-
-record_filter = {'name':'otherdata'},
-record_filter = {}
-delete(data, record_filter)
+#record_filter = {'record_title':'otherdata'},
+#record_filter = {}
+#delete(data, record_filter)
 
 # Name the fields for creation
-columns = [{'id':'name', 'type':'text'},
-          {'id':'subname', 'type':'text'},
-          {'id':'jtable', 'type':'json'},
-          {'id':'datetime', 'type':'timestamp'},
-          {'id':'response', 'type':'bool'},
-          {'id':'response_time', 'type':'int'}]
+columns = [{'id':'record_title', 'type':'text'},
+           {'id':'record_subtitle', 'type':'text'},
+           {'id':'datetime', 'type':'timestamp'},
+           {'id':'response', 'type':'bool'},
+           {'id':'response_timems', 'type':'int'},
+           {'id':'json_record', 'type':'json'},]
 create(data, columns)
-record = [
+records = [
     {
-    'name':'op_data',
-    'subname':'historical',
+    'record_title':'op_data',
+    'record_subtitle':'historical',
     'datetime':'2012-10-01T02:43Z',
     'response':True,
-    'response_time':100,
+    'response_timems':100,
     },
     {
-    'name':'op_data',
-    'subname':'historical',
+    'record_title':'op_data',
+    'record_subtitle':'historical',
     'datetime':'2012-10-01T03:43Z',
     'response':True,
-    'response_time':200,
+    'response_timems':150,
     },
     {
-    'name':'op_data',
-    'subname':'historical',
+    'record_title':'op_data',
+    'record_subtitle':'historical',
     'datetime':'2012-10-01T04:43Z',
     'response':True,
-    'response_time':300,
+    'response_timems':300,
     },
     {
-    'name':'op_data',
-    'subname':'historical',
+    'record_title':'op_data',
+    'record_subtitle':'historical',
+    'datetime':'2012-10-01T05:43Z',
+    'response':True,
+    'response_timems':200,
+    },
+    {
+    'record_title':'op_data',
+    'record_subtitle':'historical',
     'datetime':'2012-10-01T06:43Z',
     'response':True,
-    'response_time':250,
+    'response_timems':20,
     },
 ]
           
-insert_record(data, record)
+insert_record(data, records)
 # search(data, columns)
 
